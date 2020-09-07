@@ -253,21 +253,41 @@ describe('Testing elements from Parking Cost Calculator site', () => {
 
     })
 
-    /*
+})
+
+/*
     it('text',() => {
     })
     */
 
    //testRate(title,parkingName,dateStart,timeStart,amPmDataStart,dateLeaving,timeLeaving,amPmDataLeaving,exptedOutput)
-
-    describe('Testing parking rates (valet)', () => {
+   describe('Testing Parking Rates', () => {
+    describe('Valet', () => {
         testRate('Valet for one day parking','Valet','09/10/2020','13:00','PM','09/11/2020','13:00','PM',"$ 18.00")
         testRate('Valet five hours or less','Valet','09/10/2020','13:00','PM','09/10/2020','15:00','PM',"$ 12.00")
     })
 
-    describe('Testing parking rates (Short-Term)', () => {
-        testRate('Short-Term for one day parking','Short','09/10/2020','13:00','PM','09/10/2020','15:00','PM',"$ 12.00")
+    describe('Short-Term', () => {
+        testRate('Short-Term for one day parking','Short','10/01/2020','08:00','AM','10/02/2020','08:00','AM',"$ 24.00")
+        testRate('Short-Term for one hour parking','Short','09/10/2020','13:00','PM','09/10/2020','14:00','PM',"$ 2.00")
+        testRate('Short-Term for three hours parking expected value $6.00','Short','09/10/2020','08:00','AM','09/10/2020','11:00','AM',"$ 6.00")
     })
 
+    describe('Economy', () => {
+        testRate('Economy for one hour parking','Economy','11/11/2020','08:00','AM','11/11/2020','09:00','AM',"$ 2.00")
+        testRate('Economy for one day parking','Economy','11/11/2020','08:00','AM','11/12/2020','08:00','AM',"$ 9.00")
+        testRate('Economy for one week parking','Economy','11/11/2020','08:00','AM','11/18/2020','08:00','AM',"$ 54.00")
+    })
 
+    describe('Long-Term-Garage', () => {
+        testRate('Long-Garage for one hour parking','Long-Garage','11/11/2020','08:00','AM','11/11/2020','09:00','AM',"$ 2.00")
+        testRate('Long-Garage for one day parking','Long-Garage','11/11/2020','08:00','AM','11/12/2020','08:00','AM',"$ 12.00")
+        testRate('Long-Garage for one week parking','Long-Garage','11/11/2020','08:00','AM','11/18/2020','08:00','AM',"$ 72.00")
+    })
+
+    describe('Long-Term-Surface', () => {
+        testRate('Long-Term-Surface for one hour parking','Long-Surface','11/11/2020','08:00','AM','11/11/2020','09:00','AM',"$ 2.00")
+        testRate('Long-Term-Surface for one day parking','Long-Surface','11/11/2020','08:00','AM','11/12/2020','08:00','AM',"$ 10.00")
+        testRate('Long-Term-Surface for one week parking','Long-Surface','11/11/2020','08:00','AM','11/18/2020','08:00','AM',"$ 60.00")
+    })
 })
