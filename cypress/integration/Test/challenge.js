@@ -34,6 +34,16 @@ function clickCalculate(){
     cy.get('input[type=submit]').click()
 }
 
+function expectedOutput(text){
+    cy.get('b').should('contain',text)
+}
+
+
+function notExpectedOutput(text){
+    cy.get('b').should('not.contain',text)
+}
+
+
 //BEGINNING OF TEST
 describe('Naviagate to the site', () => {
     it('checking title',() => {
@@ -68,10 +78,49 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const timeStart = '10:00'
         const amPmDataStart = 'AM'
 
-        const dateLeaving = '09102020'
-        const timeLeaving = '13:00'
+        const dateLeaving = '09/11/2020'
+        const timeLeaving = '10:00'
         const amPmDataLeaving = 'PM'
 
-        
+        inputParkingLotData('Economy')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("ERROR!")
+    })
+
+    it('The input date(Leaving) shouldn\'t accept dates in the next format MM-DD-YYYY',() => {
+        const dateStart = '09/10/2020'
+        const timeStart = '10:00'
+        const amPmDataStart = 'AM'
+
+        const dateLeaving = '09-11-2020'
+        const timeLeaving = '10:00'
+        const amPmDataLeaving = 'PM'
+
+        inputParkingLotData('Economy')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("ERROR!")
+    })
+
+    it('The input date accepts date in the following format MM-DD-YYYY',() => {
+        const dateStart = '09-10-2020'
+        const timeStart = '10:00'
+        const amPmDataStart = 'AM'
+
+        const dateLeaving = '09-10-2020'
+        const timeLeaving = '11:00'
+        const amPmDataLeaving = 'AM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("$ 12.00")
     })
 })
