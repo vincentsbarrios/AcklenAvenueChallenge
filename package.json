@@ -1,0 +1,23 @@
+{
+  "name": "acklenavenuechallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincentsbarrios/AcklenAvenueChallenge.git"
+  },
+  "author": "Vincent Barrios",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vincentsbarrios/AcklenAvenueChallenge/issues"
+  },
+  "homepage": "https://github.com/vincentsbarrios/AcklenAvenueChallenge#readme",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "cypress": "^5.1.0"
+  }
+}
