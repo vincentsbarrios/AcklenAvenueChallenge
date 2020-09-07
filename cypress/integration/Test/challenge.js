@@ -40,22 +40,16 @@ function notExpectedOutput(text) {
     cy.get('b').should('not.contain', text)
 }
 
-function testRate(title,startDate,startTime,startFormat,LeavingDate,LeavingtTime,LeavingFormat,parkingName,output){
-    const dateStart = '09/10/2020'
-    const timeStart = '13:00'
-    const amPmDataStart = 'PM'
+function testRate(title,parkingName,dateStart,timeStart,amPmDataStart,dateLeaving,timeLeaving,amPmDataLeaving,output){
+    it(title,() => {
+        inputParkingLotData(parkingName)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
+        clickCalculate()
 
-    const dateLeaving = '09/10/2020'
-    const timeLeaving = '15:00'
-    const amPmDataLeaving = 'PM'
-
-    inputParkingLotData('Valet')
-    inputStartData(dateStart, timeStart, amPmDataStart)
-    inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
-    clickCalculate()
-
-    notExpectedOutput("ERROR!")
-    expectedOutput("$ 12.00")
+        notExpectedOutput("ERROR!")
+        expectedOutput(output)
+    })
 }
 
 //BEGINNING OF TEST
@@ -264,62 +258,15 @@ describe('Testing elements from Parking Cost Calculator site', () => {
     })
     */
 
+   //testRate(title,parkingName,dateStart,timeStart,amPmDataStart,dateLeaving,timeLeaving,amPmDataLeaving,exptedOutput)
+
     describe('Testing parking rates (valet)', () => {
-        it('Valet for one day parking',() => {
-            const dateStart = '09/10/2020'
-            const timeStart = '13:00'
-            const amPmDataStart = 'PM'
-
-            const dateLeaving = '09/11/2020'
-            const timeLeaving = '13:00'
-            const amPmDataLeaving = 'PM'
-
-            inputParkingLotData('Valet')
-            inputStartData(dateStart, timeStart, amPmDataStart)
-            inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
-            clickCalculate()
-
-            notExpectedOutput("ERROR!")
-            expectedOutput("$ 18.00")
-        })
-
-        it('Valet five hours or less',() => {
-            const dateStart = '09/10/2020'
-            const timeStart = '13:00'
-            const amPmDataStart = 'PM'
-
-            const dateLeaving = '09/10/2020'
-            const timeLeaving = '15:00'
-            const amPmDataLeaving = 'PM'
-
-            inputParkingLotData('Valet')
-            inputStartData(dateStart, timeStart, amPmDataStart)
-            inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
-            clickCalculate()
-
-            notExpectedOutput("ERROR!")
-            expectedOutput("$ 12.00")
-        })
+        testRate('Valet for one day parking','Valet','09/10/2020','13:00','PM','09/11/2020','13:00','PM',"$ 18.00")
+        testRate('Valet five hours or less','Valet','09/10/2020','13:00','PM','09/10/2020','15:00','PM',"$ 12.00")
     })
 
     describe('Testing parking rates (Short-Term)', () => {
-        it('Short-Term for one day parking', () => {
-            const dateStart = '09/10/2020'
-            const timeStart = '13:00'
-            const amPmDataStart = 'PM'
-
-            const dateLeaving = '09/10/2020'
-            const timeLeaving = '15:00'
-            const amPmDataLeaving = 'PM'
-
-            inputParkingLotData('Valet')
-            inputStartData(dateStart, timeStart, amPmDataStart)
-            inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
-            clickCalculate()
-
-            notExpectedOutput("ERROR!")
-            expectedOutput("$ 12.00")
-        })
+        testRate('Short-Term for one day parking','Short','09/10/2020','13:00','PM','09/10/2020','15:00','PM',"$ 12.00")
     })
 
 
