@@ -8,10 +8,11 @@
 2) Navigate to folder: cd AcklenAvenueChallenge
 
 # Note: You should be in AcklenAvenueChallenge folder
-#First form by CLI
+
+First form by CLI
 1) Open the terminal from visual studio.
 2) Enter the following command: ./node_modules/.bin/cypress run --spec cypress/integration/Test/challenge.js    
 
-#Second form launching the browser
+Second form launching the browser
 1) Open the terminal from visual studio.
 2) Enter the following command: ./node_modules/.bin/cypress run --spec cypress/integration/Test/challenge.js --browser chrome 
