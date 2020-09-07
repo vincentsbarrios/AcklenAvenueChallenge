@@ -1,16 +1,13 @@
 
 //Gloval Variables
 var chai = require('chai')
-,expect = chai.expect
-,should = chai.should
+    , expect = chai.expect
+    , should = chai.should
 
-/*
-it('text',() => {
-})
-*/
+
 
 //FUNCITONS
-function inputStartData(date,time,format){
+function inputStartData(date, time, format) {
     cy.get('input[id=StartingDate]').clear()
     cy.get('input[id=StartingDate]').type(date)
     cy.get('input[id=StartingTime]').clear()
@@ -18,7 +15,7 @@ function inputStartData(date,time,format){
     cy.get('input[name=StartingTimeAMPM]').check(format)
 }
 
-function inputLeavingData(date,time,format){
+function inputLeavingData(date, time, format) {
     cy.get('input[id=LeavingDate]').clear()
     cy.get('input[id=LeavingDate]').type(date)
     cy.get('input[id=LeavingTime]').clear()
@@ -26,34 +23,51 @@ function inputLeavingData(date,time,format){
     cy.get('input[name=LeavingTimeAMPM]').check(format)
 }
 
-function inputParkingLotData(name){
-    cy.get('#ParkingLot').select(name).should('have.value',name)
+function inputParkingLotData(name) {
+    cy.get('#ParkingLot').select(name).should('have.value', name)
 }
 
-function clickCalculate(){
+function clickCalculate() {
     cy.get('input[type=submit]').click()
 }
 
-function expectedOutput(text){
-    cy.get('b').should('contain',text)
+function expectedOutput(text) {
+    cy.get('b').should('contain', text)
 }
 
 
-function notExpectedOutput(text){
-    cy.get('b').should('not.contain',text)
+function notExpectedOutput(text) {
+    cy.get('b').should('not.contain', text)
 }
 
+function testRate(title,startDate,startTime,startFormat,LeavingDate,LeavingtTime,LeavingFormat,parkingName,output){
+    const dateStart = '09/10/2020'
+    const timeStart = '13:00'
+    const amPmDataStart = 'PM'
+
+    const dateLeaving = '09/10/2020'
+    const timeLeaving = '15:00'
+    const amPmDataLeaving = 'PM'
+
+    inputParkingLotData('Valet')
+    inputStartData(dateStart, timeStart, amPmDataStart)
+    inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
+    clickCalculate()
+
+    notExpectedOutput("ERROR!")
+    expectedOutput("$ 12.00")
+}
 
 //BEGINNING OF TEST
 describe('Naviagate to the site', () => {
-    it('checking title',() => {
+    it('checking title', () => {
         cy.visit('http://www.shino.de/parkcalc/')
-        cy.title().should('include','Parking Cost Calculator')
+        cy.title().should('include', 'Parking Cost Calculator')
     })
 })
 
 describe('Testing elements from Parking Cost Calculator site', () => {
-    it('After a click data values shouldn\'t change',() => {
+    it('After a click data values shouldn\'t change', () => {
         const dateStart = '09/10/2020'
         const timeStart = '10:00'
         const amPmDataStart = 'AM'
@@ -63,8 +77,8 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Economy')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         cy.get('input[id=StartingDate]').should('have.value', dateStart)
@@ -73,7 +87,7 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         cy.get('input[id=LeavingTime]').should('have.value', timeLeaving)
     })
 
-    it('The input date(Start) shouldn\'t accept dates in the next format MMDDYYYY',() => {
+    it('The input date(Start) shouldn\'t accept dates in the next format MMDDYYYY', () => {
         const dateStart = '09102020'
         const timeStart = '10:00'
         const amPmDataStart = 'AM'
@@ -83,14 +97,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Economy')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("ERROR!")
     })
 
-    it('The input date accepts date in the following format MMDDYYYY',() => {
+    it('The input date accepts date in the following format MMDDYYYY', () => {
         const dateStart = '09102020'
         const timeStart = '10:00'
         const amPmDataStart = 'AM'
@@ -100,14 +114,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'AM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("$ 12.00")
     })
 
-    it('The input date(Leaving) shouldn\'t accept dates in the next format MM-DD-YYYY',() => {
+    it('The input date(Leaving) shouldn\'t accept dates in the next format MM-DD-YYYY', () => {
         const dateStart = '09/10/2020'
         const timeStart = '10:00'
         const amPmDataStart = 'AM'
@@ -117,14 +131,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Economy')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("ERROR!")
     })
 
-    it('The input date accepts date in the following format MM-DD-YYYY',() => {
+    it('The input date accepts date in the following format MM-DD-YYYY', () => {
         const dateStart = '09-10-2020'
         const timeStart = '10:00'
         const amPmDataStart = 'AM'
@@ -134,14 +148,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'AM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("$ 12.00")
     })
 
-    it('Simulating that the user enters the correct data',() => {
+    it('Simulating that the user enters the correct data', () => {
         const dateStart = '09/10/2020'
         const timeStart = '13:00'
         const amPmDataStart = 'PM'
@@ -151,15 +165,15 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         notExpectedOutput("ERROR! YOUR LEAVING DATE OR TIME IS BEFORE YOUR STARTING DATE OR TIME")
         expectedOutput("$ 18.00")
     })
 
-    it('The input hour shouldn\'t accept data is not in the following format HH:MM',() => {
+    it('The input hour shouldn\'t accept data is not in the following format HH:MM', () => {
         const dateStart = '09/10/2020'
         const timeStart = '13000'
         const amPmDataStart = 'PM'
@@ -169,14 +183,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("ERROR!")
     })
 
-    it('Expect to throw an error when the date (month) is not between a valid range',() => {
+    it('Expect to throw an error when the date (month) is not between a valid range', () => {
         const dateStart = '15/10/2020'
         const timeStart = '13:00'
         const amPmDataStart = 'PM'
@@ -186,14 +200,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("ERROR!")
     })
 
-    it('Expect to throw an error when the hour is not between a valid range',() => {
+    it('Expect to throw an error when the hour is not between a valid range', () => {
         const dateStart = '09/10/2020'
         const timeStart = '13:00'
         const amPmDataStart = 'PM'
@@ -203,14 +217,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("ERROR!")
     })
 
-    it('Expect to throw an error when the date have an invalid symbol',() => {
+    it('Expect to throw an error when the date have an invalid symbol', () => {
         const dateStart = '09/@10/%2020'
         const timeStart = '13:00'
         const amPmDataStart = 'PM'
@@ -220,14 +234,14 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("ERROR!")
     })
 
-    it('Expect to throw an error when the input hour have an invalid symbol',() => {
+    it('Expect to throw an error when the input hour have an invalid symbol', () => {
         const dateStart = '09/10/2020'
         const timeStart = '1-3:00'
         const amPmDataStart = 'PM'
@@ -237,12 +251,76 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Valet')
-        inputStartData(dateStart,timeStart,amPmDataStart)
-        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        inputStartData(dateStart, timeStart, amPmDataStart)
+        inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
         clickCalculate()
 
         expectedOutput("ERROR!")
 
     })
+
+    /*
+    it('text',() => {
+    })
+    */
+
+    describe('Testing parking rates (valet)', () => {
+        it('Valet for one day parking',() => {
+            const dateStart = '09/10/2020'
+            const timeStart = '13:00'
+            const amPmDataStart = 'PM'
+
+            const dateLeaving = '09/11/2020'
+            const timeLeaving = '13:00'
+            const amPmDataLeaving = 'PM'
+
+            inputParkingLotData('Valet')
+            inputStartData(dateStart, timeStart, amPmDataStart)
+            inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
+            clickCalculate()
+
+            notExpectedOutput("ERROR!")
+            expectedOutput("$ 18.00")
+        })
+
+        it('Valet five hours or less',() => {
+            const dateStart = '09/10/2020'
+            const timeStart = '13:00'
+            const amPmDataStart = 'PM'
+
+            const dateLeaving = '09/10/2020'
+            const timeLeaving = '15:00'
+            const amPmDataLeaving = 'PM'
+
+            inputParkingLotData('Valet')
+            inputStartData(dateStart, timeStart, amPmDataStart)
+            inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
+            clickCalculate()
+
+            notExpectedOutput("ERROR!")
+            expectedOutput("$ 12.00")
+        })
+    })
+
+    describe('Testing parking rates (Short-Term)', () => {
+        it('Short-Term for one day parking', () => {
+            const dateStart = '09/10/2020'
+            const timeStart = '13:00'
+            const amPmDataStart = 'PM'
+
+            const dateLeaving = '09/10/2020'
+            const timeLeaving = '15:00'
+            const amPmDataLeaving = 'PM'
+
+            inputParkingLotData('Valet')
+            inputStartData(dateStart, timeStart, amPmDataStart)
+            inputLeavingData(dateLeaving, timeLeaving, amPmDataLeaving)
+            clickCalculate()
+
+            notExpectedOutput("ERROR!")
+            expectedOutput("$ 12.00")
+        })
+    })
+
 
 })
