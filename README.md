@@ -1,7 +1,7 @@
 # AcklenAvenueChallenge
 
 # Pre-Requisites:
-1) NodeJs
+1) NodeJs https://nodejs.org/en/
 2) npm
 # Steps to run the tests:
 1) Download the repo: git clone https://github.com/vincentsbarrios/AcklenAvenueChallenge
