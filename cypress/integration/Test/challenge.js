@@ -159,13 +159,13 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         expectedOutput("$ 18.00")
     })
 
-    it('The input hour shouldn\'t accept data in the following format HH:MM',() => {
+    it('The input hour shouldn\'t accept data is not in the following format HH:MM',() => {
         const dateStart = '09/10/2020'
-        const timeStart = '1300'
+        const timeStart = '13000'
         const amPmDataStart = 'PM'
 
         const dateLeaving = '09/11/2020'
-        const timeLeaving = '13000'
+        const timeLeaving = '1300'
         const amPmDataLeaving = 'PM'
 
         inputParkingLotData('Valet')
@@ -194,8 +194,55 @@ describe('Testing elements from Parking Cost Calculator site', () => {
     })
 
     it('Expect to throw an error when the hour is not between a valid range',() => {
-        const dateStart = '15/10/2020'
+        const dateStart = '09/10/2020'
         const timeStart = '13:00'
+        const amPmDataStart = 'PM'
+
+        const dateLeaving = '09/11/2020'
+        const timeLeaving = '25:65'
+        const amPmDataLeaving = 'PM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("ERROR!")
+    })
+
+    it('Expect to throw an error when the date have an invalid symbol',() => {
+        const dateStart = '09/@10/%2020'
+        const timeStart = '13:00'
+        const amPmDataStart = 'PM'
+
+        const dateLeaving = '09!!/11/2020*'
+        const timeLeaving = '13:00'
+        const amPmDataLeaving = 'PM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("ERROR!")
+    })
+
+    it('Expect to throw an error when the input hour have an invalid symbol',() => {
+        const dateStart = '09/10/2020'
+        const timeStart = '1-3:00'
+        const amPmDataStart = 'PM'
+
+        const dateLeaving = '09/11/2020'
+        const timeLeaving = '13+:00'
+        const amPmDataLeaving = 'PM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("ERROR!")
+
     })
 
 })
