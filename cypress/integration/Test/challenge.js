@@ -90,6 +90,23 @@ describe('Testing elements from Parking Cost Calculator site', () => {
         expectedOutput("ERROR!")
     })
 
+    it('The input date accepts date in the following format MMDDYYYY',() => {
+        const dateStart = '09102020'
+        const timeStart = '10:00'
+        const amPmDataStart = 'AM'
+
+        const dateLeaving = '09102020'
+        const timeLeaving = '11:00'
+        const amPmDataLeaving = 'AM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("$ 12.00")
+    })
+
     it('The input date(Leaving) shouldn\'t accept dates in the next format MM-DD-YYYY',() => {
         const dateStart = '09/10/2020'
         const timeStart = '10:00'
@@ -123,4 +140,62 @@ describe('Testing elements from Parking Cost Calculator site', () => {
 
         expectedOutput("$ 12.00")
     })
+
+    it('Simulating that the user enters the correct data',() => {
+        const dateStart = '09/10/2020'
+        const timeStart = '13:00'
+        const amPmDataStart = 'PM'
+
+        const dateLeaving = '09/11/2020'
+        const timeLeaving = '13:00'
+        const amPmDataLeaving = 'PM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        notExpectedOutput("ERROR! YOUR LEAVING DATE OR TIME IS BEFORE YOUR STARTING DATE OR TIME")
+        expectedOutput("$ 18.00")
+    })
+
+    it('The input hour shouldn\'t accept data in the following format HH:MM',() => {
+        const dateStart = '09/10/2020'
+        const timeStart = '1300'
+        const amPmDataStart = 'PM'
+
+        const dateLeaving = '09/11/2020'
+        const timeLeaving = '13000'
+        const amPmDataLeaving = 'PM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("ERROR!")
+    })
+
+    it('Expect to throw an error when the date (month) is not between a valid range',() => {
+        const dateStart = '15/10/2020'
+        const timeStart = '13:00'
+        const amPmDataStart = 'PM'
+
+        const dateLeaving = '99/11/2020'
+        const timeLeaving = '13:00'
+        const amPmDataLeaving = 'PM'
+
+        inputParkingLotData('Valet')
+        inputStartData(dateStart,timeStart,amPmDataStart)
+        inputLeavingData(dateLeaving,timeLeaving,amPmDataLeaving)
+        clickCalculate()
+
+        expectedOutput("ERROR!")
+    })
+
+    it('Expect to throw an error when the hour is not between a valid range',() => {
+        const dateStart = '15/10/2020'
+        const timeStart = '13:00'
+    })
+
 })
